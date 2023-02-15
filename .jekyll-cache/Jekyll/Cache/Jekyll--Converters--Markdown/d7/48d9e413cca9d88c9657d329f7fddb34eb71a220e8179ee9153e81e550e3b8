@@ -1,0 +1,54 @@
+I"><p>KEYWORDS:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    sliding window, rolling window, rolling
+</code></pre></div></div>
+
+<p>In q, rolling window is not built-in but can be easily realized.</p>
+
+<h3 id="pandas-rolling">Pandas Rolling</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'B'</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">4</span><span class="p">]})</span>
+</code></pre></div></div>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="p">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nb">sum</span><span class="p">()</span>
+     <span class="n">B</span>
+<span class="mi">0</span>  <span class="n">NaN</span>
+<span class="mi">1</span>  <span class="mf">1.0</span>
+<span class="mi">2</span>  <span class="mf">3.0</span>
+<span class="mi">3</span>  <span class="n">NaN</span>
+<span class="mi">4</span>  <span class="n">NaN</span>
+</code></pre></div></div>
+
+<h3 id="kx-rolling">KX Rolling</h3>
+<p>the <a href="https://code.kx.com/q/kb/programming-idioms">rolling function</a> provided by kx is</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>swin:{[f;w;s] f each { 1_x,y }\[w#0;s]}
+</code></pre></div></div>
+<p>where it uses 0 to fulfill the nan, for example</p>
+<div class="language-q highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">swin</span><span class="p">[</span><span class="n">avg</span><span class="p">;</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"> </span><span class="nb">til</span><span class="w"> </span><span class="mi">10</span><span class="p">];</span>
+
+<span class="mi">0</span><span class="w"> </span><span class="mf">0.3333</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="mi">8</span>
+</code></pre></div></div>
+<p>To clarify:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>swin[0N!; 3; til 10]
+0 0 0
+0 0 1
+0 1 2
+1 2 3
+2 3 4
+3 4 5
+...
+</code></pre></div></div>
+
+<h3 id="my-rolling">My Rolling</h3>
+<div class="language-q highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rw</span><span class="o">:</span><span class="p">{[</span><span class="n">op</span><span class="p">;</span><span class="n">n</span><span class="p">;</span><span class="n">x</span><span class="p">]</span>
+<span class="w"> </span><span class="n">op</span><span class="w"> </span><span class="ow">peach</span><span class="p">{</span><span class="mi">1</span><span class="o">_</span><span class="n">x</span><span class="o">,</span><span class="n">y</span><span class="p">}</span><span class="o">\</span><span class="p">[</span><span class="n">n</span><span class="o">#</span><span class="nb">type</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">$</span><span class="kc">0N</span><span class="p">;</span><span class="n">x</span><span class="p">]</span>
+<span class="w"> </span><span class="p">};</span>
+
+<span class="n">op</span><span class="o">:</span><span class="w"> </span><span class="n">function</span><span class="o">,</span><span class="w"> </span><span class="n">eg</span><span class="o">:</span><span class="n">avg</span><span class="w"> </span><span class="nb">max</span>
+<span class="n">n</span><span class="o">:</span><span class="w"> </span><span class="n">rolling</span><span class="w"> </span><span class="n">size</span>
+<span class="n">x</span><span class="o">:</span><span class="w"> </span><span class="n">input</span>
+<span class="nb">type</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">$</span><span class="kc">0N</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="n">na</span><span class="w"> </span>
+</code></pre></div></div>
+
+<h3 id="example">Example</h3>
+
+:ET

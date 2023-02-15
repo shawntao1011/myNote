@@ -1,0 +1,54 @@
+I"�
+<h2 id="config">CONFIG</h2>
+<p>It is very important to set the <font color="red">_config.yml</font> file.</p>
+
+<h3 id="base-url">Base URL</h3>
+<p>The url part template is:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>url:              'https://[username].github.io'
+baseurl:          '/[your project name]'
+</code></pre></div></div>
+<p>FYI, empty baseurl is okay if you only use the gitbook locally. Otherwise the github pages will look different from your local one.</p>
+
+<p>Check this <a href="https://byparker.com/blog/2014/clearing-up-confusion-around-baseurl/">blog</a> for more info.</p>
+
+<h3 id="other-settings">Other Settings</h3>
+<p>Check the chinese version <a href="http://jekyllcn.com/docs/configuration/">config document</a>.</p>
+
+<h2 id="pages">pages</h2>
+
+<p>The simplest method to create page is to add certain html(md) file under the root directory.</p>
+
+<p>The path of the file determines the associated URL.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.
+├── about.md    # =&gt; http://example.com/about.html
+├── index.html    # =&gt; http://example.com/
+└── contact.html  # =&gt; http://example.com/contact.html
+</code></pre></div></div>
+<p>Complicated structure like subfolder is also supported.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.
+├── about.md          # =&gt; http://example.com/about.html
+├── documentation     # folder containing pages
+│   └── doc1.md       # =&gt; http://example.com/documentation/doc1.html
+├── design            # folder containing pages
+│   └── draft.md      # =&gt; http://example.com/design/draft.html
+</code></pre></div></div>
+
+<p>Check official <a href="https://jekyllrb.com/docs/pages/">document</a> for more.</p>
+
+<h2 id="posts">Posts</h2>
+
+<p>“The _posts folder is where your blog posts live. You typically write posts in Markdown, HTML is also supported.”</p>
+
+<p>To create a post, file need to follow the following format:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>YEAR-MONTH-DAY-title.MARKUP
+</code></pre></div></div>
+
+<p>Where YEAR is a four-digit number, MONTH and DAY are both two-digit numbers, and MARKUP is the file extension representing the format used in the file. For example, the following are examples of valid post filenames:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2011-12-31-new-years-eve-is-awesome.md
+2012-09-12-how-to-write-a-blog.md
+</code></pre></div></div>
+
+<p>Check official <a href="https://jekyllrb.com/docs/posts/">document</a> for more.</p>
+
+:ET

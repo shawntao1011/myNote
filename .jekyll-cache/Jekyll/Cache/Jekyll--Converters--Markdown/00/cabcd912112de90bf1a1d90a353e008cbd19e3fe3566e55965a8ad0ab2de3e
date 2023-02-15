@@ -1,0 +1,27 @@
+I"<p>Sometimes the tdb database is way too big to read all the columns into memory. So map reduce is necessary to split big table into small blocks.</p>
+
+<p><img src="https://th.bing.com/th/id/OIP.6HY3K-GyD79l-SZFGNIyZwHaDc?w=330&amp;h=162&amp;c=7&amp;r=0&amp;o=5&amp;dpr=1.25&amp;pid=1.7" alt="Image result for map reduce" /></p>
+
+<h2 id="split-by-syms">Split by Syms</h2>
+
+<p>Since date is required to query table in tdb, so date is fixed. For tick-level data and 32bit KDB, no more than 2 columns should be used as the columns will be mapped into memory .</p>
+
+<p>Normally, filter table by sym is a good choice.</p>
+
+<div class="language-q highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">batch_groups</span><span class="o">:</span><span class="p">{[</span><span class="n">topic</span><span class="p">;</span><span class="n">par</span><span class="p">;</span><span class="n">syms</span><span class="p">]</span>
+<span class="w">	</span><span class="kc">0N</span><span class="o">!</span><span class="n">par</span><span class="p">;</span>
+<span class="w">	</span><span class="n">date_sym</span><span class="o">:</span><span class="mi">0</span><span class="o">!</span><span class="k">select</span><span class="w"> </span><span class="n">rid</span><span class="o">:</span><span class="n">i</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">sym</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">topic</span><span class="w"> </span><span class="ow">where</span><span class="w"> </span><span class="n">date</span><span class="o">=</span><span class="n">par</span><span class="o">,</span><span class="w"> </span><span class="n">sym</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">syms</span><span class="p">;</span><span class="w">	</span>
+<span class="w">	</span><span class="o">...</span>
+<span class="p">}</span>
+
+<span class="n">date_sym</span>
+<span class="n">sym</span><span class="w">      </span><span class="o">|</span><span class="w"> </span><span class="n">rid</span><span class="w">                                                               </span><span class="o">..</span>
+<span class="o">---------|</span><span class="w"> </span><span class="o">------------------------------------------------------------------..</span>
+<span class="mf">000001.</span><span class="n">SZ</span><span class="o">|</span><span class="w"> </span><span class="mi">38309230</span><span class="w"> </span><span class="mi">38309231</span><span class="w"> </span><span class="mi">38309232</span><span class="w"> </span><span class="mi">38309233</span><span class="w"> </span><span class="mi">38309234</span><span class="w"> </span><span class="mi">38309235</span><span class="w"> </span><span class="mi">38309236</span><span class="w"> </span><span class="mf">383.</span><span class="o">.</span>
+<span class="mf">000002.</span><span class="n">SZ</span><span class="o">|</span><span class="w"> </span><span class="mi">38414128</span><span class="w"> </span><span class="mi">38414129</span><span class="w"> </span><span class="mi">38414130</span><span class="w"> </span><span class="mi">38414131</span><span class="w"> </span><span class="mi">38414132</span><span class="w"> </span><span class="mi">38414133</span><span class="w"> </span><span class="mi">38414134</span><span class="w"> </span><span class="mf">384.</span><span class="o">.</span>
+</code></pre></div></div>
+
+<h2 id="split-by-strategy">Split by Strategy</h2>
+
+<h2 id="example">Example</h2>
+:ET

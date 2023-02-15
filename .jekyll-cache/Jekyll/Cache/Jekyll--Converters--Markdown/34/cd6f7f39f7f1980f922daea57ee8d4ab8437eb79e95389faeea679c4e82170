@@ -1,0 +1,2 @@
+I"—<p>Sometimes the tdb database is way too big to read all the columns into memory. So map reduce is necessary to split big table into small blocks.</p>
+:ET

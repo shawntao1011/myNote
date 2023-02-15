@@ -1,0 +1,72 @@
+I"õ<p>The groupby is built-in for q.</p>
+
+<h2 id="pandas-method">pandas method</h2>
+<p>The self-define function apply on pandas groupby object is operating on a small dataframe rather than specified column.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s">'Animal'</span><span class="p">:[</span><span class="s">'Falcon'</span><span class="p">,</span><span class="s">'Falcon'</span><span class="p">,</span><span class="s">'Parrot'</span><span class="p">,</span><span class="s">'Parrot'</span><span class="p">],</span>
+    <span class="s">'Max Speed'</span><span class="p">:[</span><span class="mi">300</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">400</span><span class="p">,</span><span class="mi">500</span><span class="p">],</span>
+    <span class="s">'Min Speed'</span><span class="p">:[</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">300</span><span class="p">]</span>
+<span class="p">})</span>
+</code></pre></div></div>
+<p>After groupby(), a groupby object is generated.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>list(df.groupby('Animal'))
+
+[('Falcon',    
+    Animal  Max Speed  Min Speed
+    0  Falcon        300        100
+    1  Falcon        200        100), 
+('Parrot',    
+    Animal  Max Speed  Min Speed
+    2  Parrot        400        200
+    3  Parrot        500        300)]
+</code></pre></div></div>
+
+<p>Suppose we need to get the sum of two column groupby sym,(in this case, get mean,sum or delta of max_speed and min_speed by animal)</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="p">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">'Animal'</span><span class="p">).</span><span class="nb">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">pd</span><span class="p">.</span><span class="n">Series</span><span class="p">({</span>
+                <span class="s">"max_min mean"</span><span class="p">:(</span><span class="n">x</span><span class="p">[</span><span class="s">'Max Speed'</span><span class="p">]</span><span class="o">+</span><span class="n">x</span><span class="p">[</span><span class="s">'Min Speed'</span><span class="p">]).</span><span class="n">mean</span><span class="p">()</span>
+                <span class="p">}))</span>
+</code></pre></div></div>
+<p>So the lambda input is the sub dataframe.</p>
+
+<h2 id="q-method">q method</h2>
+<div class="language-q highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">t</span><span class="o">:</span><span class="p">([]</span><span class="w"> </span><span class="n">sym</span><span class="o">:</span><span class="mi">4</span><span class="o">#</span><span class="ss">`a`b</span><span class="p">;</span><span class="n">val1</span><span class="o">:</span><span class="mi">4</span><span class="o">#</span><span class="mi">1</span><span class="o">+</span><span class="nb">til</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="n">val2</span><span class="o">:</span><span class="mi">4</span><span class="o">#</span><span class="mi">2</span><span class="o">+</span><span class="nb">til</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+</code></pre></div></div>
+<p>The q method groupby is called directly and applied on column.</p>
+
+<p>For example,</p>
+<div class="language-q highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">update</span><span class="w"> </span><span class="n">val3</span><span class="o">:</span><span class="n">val1</span><span class="o">*</span><span class="mi">2</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">sym</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">t</span>
+
+<span class="n">sym</span><span class="w"> </span><span class="n">val1</span><span class="w"> </span><span class="n">val2</span><span class="w"> </span><span class="n">val3</span>
+<span class="o">------------------</span>
+<span class="n">a</span><span class="w">   </span><span class="mi">1</span><span class="w">    </span><span class="mi">2</span><span class="w">    </span><span class="mi">2</span>
+<span class="n">b</span><span class="w">   </span><span class="mi">2</span><span class="w">    </span><span class="mi">3</span><span class="w">    </span><span class="mi">4</span>
+<span class="n">a</span><span class="w">   </span><span class="mi">3</span><span class="w">    </span><span class="mi">4</span><span class="w">    </span><span class="mi">6</span>
+<span class="n">b</span><span class="w">   </span><span class="mi">4</span><span class="w">    </span><span class="mi">5</span><span class="w">    </span><span class="mi">8</span>
+</code></pre></div></div>
+<h3 id="aggregate">Aggregate</h3>
+<p>!!<em>Attention</em> check the row number</p>
+<div class="language-q highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">update</span><span class="w"> </span><span class="n">val3</span><span class="o">:</span><span class="n">avg</span><span class="w"> </span><span class="n">val1</span><span class="o">+</span><span class="n">val2</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">sym</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">t</span>
+
+<span class="n">sym</span><span class="w"> </span><span class="n">val1</span><span class="w"> </span><span class="n">val2</span><span class="w"> </span><span class="n">val3</span>
+<span class="o">------------------</span>
+<span class="n">a</span><span class="w">   </span><span class="mi">1</span><span class="w">    </span><span class="mi">2</span><span class="w">    </span><span class="mi">5</span>
+<span class="n">b</span><span class="w">   </span><span class="mi">2</span><span class="w">    </span><span class="mi">3</span><span class="w">    </span><span class="mi">7</span>
+<span class="n">a</span><span class="w">   </span><span class="mi">3</span><span class="w">    </span><span class="mi">4</span><span class="w">    </span><span class="mi">5</span>
+<span class="n">b</span><span class="w">   </span><span class="mi">4</span><span class="w">    </span><span class="mi">5</span><span class="w">    </span><span class="mi">7</span>
+</code></pre></div></div>
+<p>VS</p>
+
+<div class="language-q highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">0</span><span class="o">!</span><span class="k">select</span><span class="w"> </span><span class="n">val3</span><span class="o">:</span><span class="n">avg</span><span class="w"> </span><span class="n">val1</span><span class="o">+</span><span class="n">val2</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">sym</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">t</span>
+
+<span class="n">sym</span><span class="w"> </span><span class="n">val3</span>
+<span class="o">--------</span>
+<span class="n">a</span><span class="w">   </span><span class="mi">5</span>
+<span class="n">b</span><span class="w">   </span><span class="mi">7</span>
+</code></pre></div></div>
+<p>The row number <em>differs</em> a lot. The result of <font color="blue">select</font> query is much more like the pandas groupby, where the key number will be the same as the group <em>set</em> of grouped pairs.</p>
+
+<p>THUS, as long as the column you groupby with is <font color="red">with duplicates</font>, use select rather than update.</p>
+
+<h2 id="example">Example</h2>
+:ET
