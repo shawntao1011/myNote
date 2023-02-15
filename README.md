@@ -1,6 +1,6 @@
-# Python Notes
+# My Notes
 
-My personal notes on python. The documenting tools is heavily modified from [https://sighingnow.github.io/jekyll-gitbook](https://sighingnow.github.io/jekyll-gitbook).
+My personal notes. The documenting tools is heavily modified from [https://sighingnow.github.io/jekyll-gitbook](https://sighingnow.github.io/jekyll-gitbook).
 
 ## How to add chapters
 
